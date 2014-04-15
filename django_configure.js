@@ -7,7 +7,7 @@ Template.configureLoginServiceDialogForDjango.fields = function () {
     { property: 'clientId', label: 'Client ID' },
     { property: 'secret', label: 'Client Secret' },
     { property: 'tokenUrl', label: 'Token URL' },
+    { property: 'loginUrl', label: 'Login URL' },
     { property: 'identityUrl', label: 'Identity URL' },
-    { property: 'loginUrl', label: 'Login URL' }
   ];
 };
