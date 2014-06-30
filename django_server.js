@@ -1,10 +1,10 @@
 Oauth.registerService('django', 2, null, function(query) {
   var response = getTokenResponse(query);
 
-  var serviceData = {
+  var serviceData = _.extend({
     accessToken: response.accessToken,
     expiresAt: (+new Date) + (1000 * response.expiresIn)
-  };
+  }, JSON.parse(getIdentity(response.accessToken)));
 
   // var fields = response.user;
   // _.extend(serviceData, fields);
@@ -14,7 +14,7 @@ Oauth.registerService('django', 2, null, function(query) {
   // or we'll need to make an API call to retrieve user information to store
 
   return {
-    serviceData: _.extend(serviceData, getIdentity(response.accessToken)),
+    serviceData: serviceData,
     options: {
       profile: {}
       // profile: { name: serviceData.full_name }
