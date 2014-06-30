@@ -1,10 +1,16 @@
 Oauth.registerService('django', 2, null, function(query) {
   var response = getTokenResponse(query);
+  var identity = JSON.parse(getIdentity(response.accessToken));
 
-  var serviceData = _.extend({
+  var serviceData = {
+    id: identity.id,
+    is_active: identity.is_active,
+    is_staff: identity.is_staff,
+    is_superuser: identity.is_superuser,
+    sessions: identity.sessions,
     accessToken: response.accessToken,
     expiresAt: (+new Date) + (1000 * response.expiresIn)
-  }, JSON.parse(getIdentity(response.accessToken)));
+  };
 
   // var fields = response.user;
   // _.extend(serviceData, fields);
@@ -16,8 +22,10 @@ Oauth.registerService('django', 2, null, function(query) {
   return {
     serviceData: serviceData,
     options: {
-      profile: {}
-      // profile: { name: serviceData.full_name }
+      profile: {
+        name: identity.full_name,
+        email: identity.email
+      }
     }
   };
 });
