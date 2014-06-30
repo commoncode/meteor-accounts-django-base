@@ -2,10 +2,11 @@ Oauth.registerService('django', 2, null, function(query) {
   var response = getTokenResponse(query);
 
   var serviceData = {
-    id: getIdentity(response.accessToken).id,
     accessToken: response.accessToken,
     expiresAt: (+new Date) + (1000 * response.expiresIn)
   };
+
+  _.extend(serviceData, getIdentity(response.accessToken));
 
   // var fields = response.user;
   // _.extend(serviceData, fields);
